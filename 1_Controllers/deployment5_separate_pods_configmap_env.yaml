@@ -1,0 +1,133 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sails-backend
+  labels:
+    app: sails
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sails
+      tier: backend
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: sails
+        tier: backend
+    spec:
+      containers:
+      - name: sails-backend
+        image: sails-workshop-backend:1.0.0
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: MONGO_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: mongo.username
+        - name: MONGO_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: mongo.password
+        - name: MONGO_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: mongo.hostname
+        - name: MONGO_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: mongo.port
+        - name: MONGO_DB
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: mongo.database
+        command:
+        - sails
+        args:
+        - lift
+        ports:
+        - containerPort: 1337
+          protocol: TCP
+          name: live-port
+        readinessProbe:
+          tcpSocket:
+            port: live-port
+          initialDelaySeconds: 1
+          periodSeconds: 5
+          timeoutSeconds: 5
+        livenessProbe:
+          tcpSocket:
+            port: live-port
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 10
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 15
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sails-frontend
+  labels:
+    app: sails
+    tier: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sails
+      tier: frontend
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: sails
+        tier: frontend
+    spec:
+      containers:
+      - name: sails-frontend
+        image: sails-workshop-frontend:1.0.0
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: BACKEND_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: backend.hostname
+        command:
+        - gulp
+        ports:
+        - containerPort: 8000
+          protocol: TCP
+          name: live-port
+        readinessProbe:
+          tcpSocket:
+            port: live-port
+          initialDelaySeconds: 1
+          periodSeconds: 5
+          timeoutSeconds: 5
+        livenessProbe:
+          tcpSocket:
+            port: live-port
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 10
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 15

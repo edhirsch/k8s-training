@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-config
+  namespace: default
+data:
+  mongo.username: "username"
+  mongo.password: "password"
+  mongo.database: "database"
+  mongo.hostname: mongo.default.svc.cluster.local
+  mongo.port: "27017"
+  backend.hostname: sails-backend.default.svc.cluster.local

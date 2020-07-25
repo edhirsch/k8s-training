@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sails
+spec:
+  selector:
+    matchLabels:
+      app: sails
+  template:
+    metadata:
+      labels:
+        app: sails
+    spec:
+      containers:
+      - name: sails
+        image: sails-workshop-backend:1.0.0
