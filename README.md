@@ -1,31 +1,49 @@
-# k8s-training
+# Kubernetes hands-on training
 
-# Prerequisites
+---
 
-## Install Docker
+## Prerequisites
+### Install Docker Desktop
+- [MacOS](https://docs.docker.com/docker-for-mac/install/)
+- [Windows](https://docs.docker.com/docker-for-windows/install/)
 
-#### MacOS
-#### Windows
-#### Linux
+---
 
-## Install Kubernetes
+### Enable Kubernetes in Docker Desktop
+- [MacOS](https://docs.docker.com/docker-for-mac/#kubernetes)
+- [Windows](https://docs.docker.com/docker-for-windows/#kubernetes)
 
-#### MacOS
-#### Windows
-#### Linux
+---
 
 **OPTIONAL**
-- [enable kubectl shell autocompletion](https://kubernetes.io/docs/tasks/tools/install-kubectl/#enabling-shell-autocompletion)
-(MacOS and Linux only)
+- [enable kubectl shell autocompletion on MacOS](https://kubernetes.io/docs/tasks/tools/install-kubectl/#enabling-shell-autocompletion)
+- [install PyCharm Kubernetes plugin](https://www.jetbrains.com/help/pycharm/kubernetes.html)
+- [install vim Kubernetes yaml plugin](https://octetz.com/docs/2020/2020-01-06-vim-k8s-yaml-support/)
 
-## Build a dockerized application
+---
 
-## Install Helm
+## Useful commands
 
-#### MacOS
-#### Windows
-#### Linux
+### Nodes
 
-# Optional
+#### List nodes
+    kubectl get nodes
+    kubectl get nodes -o wide
 
-## Install PyCharm with Kubernetes plugin
+---
+
+### Pods
+#### List pods
+    kubectl get pods
+    kubectl get pods -o wide
+    kubectl get pods --show-labels
+    kubectl get pods -l labelname=labelvalue
+    kubectl get pods --all-namespaces
+
+---
+
+### Services
+#### List services
+    kubectl get service
+    kubectl get service -o wide
+
