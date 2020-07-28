@@ -1,7 +1,4 @@
 # Kubernetes hands-on training
-
----
-
 ## Prerequisites
 ### Install Docker Desktop
 - [MacOS](https://docs.docker.com/docker-for-mac/install/)
@@ -23,8 +20,9 @@
 ---
 
 ## Useful commands
-
 ### Nodes
+
+---
 
 #### List nodes
     kubectl get nodes
@@ -33,6 +31,9 @@
 ---
 
 ### Pods
+
+---
+
 #### List pods
     kubectl get pods
     kubectl get pods -o wide
@@ -43,7 +44,9 @@
 ---
 
 ### Services
+
+---
+
 #### List services
     kubectl get service
     kubectl get service -o wide
-
