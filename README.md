@@ -25,3 +25,4 @@
 - [kubectl cheat sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
 - [kubectl command reference](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands)
 - [kubernetes concepts](https://kubernetes.io/docs/concepts/)
+
