@@ -19,34 +19,9 @@
 
 ---
 
-## Useful commands
-### Nodes
-
----
-
-#### List nodes
-    kubectl get nodes
-    kubectl get nodes -o wide
-
----
-
-### Pods
-
----
-
-#### List pods
-    kubectl get pods
-    kubectl get pods -o wide
-    kubectl get pods --show-labels
-    kubectl get pods -l labelname=labelvalue
-    kubectl get pods --all-namespaces
-
----
-
-### Services
-
----
-
-#### List services
-    kubectl get service
-    kubectl get service -o wide
+## Documentation
+- [what is Kubernetes ?](https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/)
+- [kubectl command line tool](https://kubernetes.io/docs/reference/kubectl/overview/)
+- [kubectl cheat sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
+- [kubectl command reference](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands)
+- [kubernetes concepts](https://kubernetes.io/docs/concepts/)
