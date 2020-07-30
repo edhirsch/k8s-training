@@ -1,0 +1,22 @@
+nginx-ingress:
+  enabled: true
+# nginx configuration
+    ## Ref: https://github.com/kubernetes/ingress/blob/master/controllers/nginx/configuration.md
+    ##
+  controller:
+    ## Use host ports 80 and 443
+    daemonset:
+      useHostPort: true
+
+      hostPorts:
+        http: 80
+        https: 443
+
+    replicaCount: 1
+    minAvailable: 1
+
+    service:
+      externalIPs: ["0.0.0.0"]
+      enableHttp: true
+      enableHttps: true
+
