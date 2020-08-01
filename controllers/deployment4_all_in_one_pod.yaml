@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sails
+  labels:
+    app: sails
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sails
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: sails
+    spec:
+      containers:
+      - name: sails-frontend
+        image: sails-workshop-frontend:1.0.0
+        imagePullPolicy: IfNotPresent
+        command:
+        - gulp
+        ports:
+        - containerPort: 8000
+          protocol: TCP
+          name: live-port
+        readinessProbe:
+          tcpSocket:
+            port: live-port
+          initialDelaySeconds: 1
+          periodSeconds: 5
+          timeoutSeconds: 5
+        livenessProbe:
+          tcpSocket:
+            port: live-port
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 10
+      - name: sails-backend
+        image: sails-workshop-backend:1.0.0
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: MONGO_USERNAME
+          value: "username"
+        - name: MONGO_PASSWORD
+          value: "password"
+        - name: MONGO_HOSTNAME
+          value: mongo.default.svc.cluster.local
+        - name: MONGO_PORT
+          value: "27017"
+        - name: MONGO_DB
+          value: "database"
+        command:
+        - sails
+        args:
+        - lift
+        ports:
+        - containerPort: 1337
+          protocol: TCP
+          name: live-port
+        readinessProbe:
+          tcpSocket:
+            port: live-port
+          initialDelaySeconds: 1
+          periodSeconds: 5
+          timeoutSeconds: 5
+        livenessProbe:
+          tcpSocket:
+            port: live-port
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 10
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 15

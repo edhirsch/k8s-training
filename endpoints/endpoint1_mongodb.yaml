@@ -4,7 +4,7 @@ metadata:
   name: ep-mongo
 subsets:
   - addresses:
-    - ip: 127.0.0.1
+    - ip: 192.168.0.9
     ports:
     - port: 27017
       name: mongo
