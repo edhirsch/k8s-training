@@ -12,6 +12,14 @@
 
 ---
 
+### Prepare docker images
+    cd _sails-workshop/
+    docker build -f Dockerfile.frontend -t sails-workshop-frontend:1.0.0 .
+    docker build -f Dockerfile.backend -t sails-workshop-backend:1.0.0 .
+    docker images | grep sails-workshop
+
+---
+
 **OPTIONAL**
 - [enable kubectl shell autocompletion on MacOS](https://kubernetes.io/docs/tasks/tools/install-kubectl/#enabling-shell-autocompletion)
 - [install PyCharm Kubernetes plugin](https://www.jetbrains.com/help/pycharm/kubernetes.html)
