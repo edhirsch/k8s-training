@@ -1,0 +1,6 @@
+#view_devices {
+    display: grid;
+    font-size: larger;
+    height: 100%;
+    place-items: center;
+}

@@ -1,0 +1,67 @@
+version: "3.8"
+services:
+  backend:
+    hostname: backend
+    build:
+        context: .
+        target: backend-base
+    container_name: backend
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "1337:1337"
+    environment:
+        - MONGO_HOSTNAME=db
+    volumes:
+        - nodemodules:/var/sails_workshop/node_modules
+        - ./backend:/var/sails_workshop
+    networks:
+      - app-network
+    depends_on:
+      - db
+    
+  frontend:
+    build:
+      context: .
+      target: frontend-base
+    container_name: frontend
+    restart: unless-stopped
+    env_file: .env
+    environment:
+        - MONGO_HOSTNAME=db
+        - BACKEND_HOSTNAME=backend
+    stdin_open: true
+    ports:
+        - "8000:8000"
+    volumes:
+      - nodemodules_frontend:/var/sails_workshop/node_modules
+      - bower_components:/var/sails_workshop/bower_components
+      - ./frontend:/var/sails_workshop
+    networks:
+      - app-network 
+    depends_on:
+      - backend
+
+  db:
+    image: mongo:4.2-bionic
+    hostname: db
+    container_name: db
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
+    volumes:  
+      - dbdata:/data/database
+    networks:
+      - app-network 
+
+volumes:
+  nodemodules:
+  nodemodules_frontend:
+  bower_components:
+  dbdata:
+
+networks:
+  app-network:
+    driver: bridge

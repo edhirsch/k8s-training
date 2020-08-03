@@ -1,0 +1,21 @@
+{
+  "name": "frontend",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Cristian Naziru <cristian.naziru@gmail.com> (https://cristiannaziru.github.io/react-components-chris/)"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.7.9",
+    "angular-route": "^1.7.9"
+  }
+}

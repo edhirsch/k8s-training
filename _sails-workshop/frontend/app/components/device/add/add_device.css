@@ -1,0 +1,19 @@
+#device_form {
+    display: grid;
+    background-color: #073642;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+                0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+    height: 100%;
+    margin: 5% 15% 5% 15%;
+    place-items: center;
+}
+
+#add_device {
+    color: yellow;
+    display: grid;
+    font-size: larger;
+    font-weight: 800;
+    padding-top: 10px;
+    place-items: center;
+}

@@ -1,0 +1,25 @@
+<nav id="mainNav" class="navbar navbar-light bg-light">
+    <a href="#!/" id="logo">
+        <span><img src="cisco_logo.png" style="width:70px; height:35px;" alt="Cisco Logo"></span>
+    </a>
+    <ul id="main_entries">
+        <li class='nav_item'>
+            <a ng-class="{active: vm.isActive('/add_device')}" href="#!/add_device">
+                Add Devices
+            </a>
+        </li>
+        <li class='nav_item'>
+            <a ng-class="{active: vm.isActive('/upgrade')}" href="#!/upgrade">
+                Start Upgrade
+            </a>
+        </li>
+        <li class='nav_item'>
+            <a ng-class="{active: vm.isActive('/monitor')}" href="#!/monitor">
+                Monitor Upgrade
+            </a>
+        </li>
+    </ul>
+    <a href="#!/login" id="login">
+        <button class="btn btn-primary" style='float: right'>Login</button>
+    </a>
+</nav>
