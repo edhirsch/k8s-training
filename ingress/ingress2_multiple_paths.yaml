@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: kick-ingress
+  name: sails-ingress
   annotations:
     kubernetes.io/ingress.class: "nginx"
 spec:
