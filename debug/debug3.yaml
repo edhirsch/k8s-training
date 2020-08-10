@@ -1,0 +1,290 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-config
+  namespace: default
+data:
+  mongo.username: "username"
+  mongo.database: "database"
+  mongo.hostname: mongo.default.svc.cluster.local
+  mongo.port: "27017"
+  backend.hostname: sails-backend.default.svc.cluster.local
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: secret-config
+  namespace: default
+type: Opaque
+data:
+  mongo.password: "cGFzc3dvcmQ="
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: local-storage
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-pv
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: local-storage
+  local:
+    path: /Users/eduard.hirsch/data
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - docker
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sails-backend
+  labels:
+    app: sails
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sails
+      tier: backend
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: sails
+        tier: backend
+    spec:
+      initContainers:
+      - name: wait-mongo
+        image: busybox
+        command: ['sh', '-c', "until nc -vz -w 1 $MONGO_SERVICE_HOST $MONGO_SERVICE_PORT; do echo Waiting for mongo database to be available..; done"]
+      containers:
+      - name: sails-backend
+        image: sails-workshop-backend:1.0.0
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: MONGO_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: mongo.username
+        - name: MONGO_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: secret-config
+              key: mongo.password
+        - name: MONGO_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: mongo.hostname
+        - name: MONGO_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: mongo.port
+        - name: MONGO_DB
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: mongo.database
+        command:
+        - sails
+        args:
+        - lift
+        ports:
+        - containerPort: 1337
+          protocol: TCP
+          name: live-port
+        readinessProbe:
+          tcpSocket:
+            port: live-port
+          initialDelaySeconds: 1
+          periodSeconds: 5
+          timeoutSeconds: 5
+        livenessProbe:
+          tcpSocket:
+            port: live-port
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 10
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 15
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sails-frontend
+  labels:
+    app: sails
+    tier: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sails
+      tier: frontend
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: sails
+        tier: frontend
+    spec:
+      initContainers:
+      - name: wait-sails
+        image: busybox
+        command: ['sh', '-c', "until nc -vz -w 1 $SAILS_BACKEND_SERVICE_HOST $SAILS_BACKEND_SERVICE_PORT; do echo Waiting for sails to be available..; done"]
+      containers:
+      - name: sails-frontend
+        image: sails-workshop-frontend:1.0.0
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: BACKEND_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: backend.hostname
+        command:
+        - gulp
+        ports:
+        - containerPort: 8000
+          protocol: TCP
+          name: live-port
+        readinessProbe:
+          tcpSocket:
+            port: live-port
+          initialDelaySeconds: 1
+          periodSeconds: 5
+          timeoutSeconds: 5
+        livenessProbe:
+          tcpSocket:
+            port: live-port
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 10
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 15
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sails
+      tier: database
+  serviceName: mongo
+  template:
+    metadata:
+      labels:
+        app: sails
+        tier: database
+    spec:
+      containers:
+      - name: mongo
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: username
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          value: password
+        ports:
+        - containerPort: 27017
+          protocol: TCP
+          name: mongo-port
+        image: mongo:4.2-bionic
+        imagePullPolicy: IfNotPresent
+        readinessProbe:
+          tcpSocket:
+            port: mongo-port
+          initialDelaySeconds: 1
+          periodSeconds: 10
+          timeoutSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: mongo-port
+          initialDelaySeconds: 5
+          periodSeconds: 20
+          timeoutSeconds: 20
+        resources: {}
+        volumeMounts:
+        - name: local-vol
+          mountPath: /data
+      restartPolicy: Always
+      serviceAccountName: ""
+      terminationGracePeriodSeconds: 30
+      volumes: []
+  volumeClaimTemplates:
+  - metadata:
+      name: local-vol
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "local-storage"
+      resources:
+        requests:
+          storage: 100Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+spec:
+  selector:
+    app: sails
+    tier: database
+  ports:
+  - port: 27017
+    targetPort: 27017
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sails-backend
+spec:
+  selector:
+    app: sails
+    tier: backend
+  ports:
+  - port: 1337
+    targetPort: 1337
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sails-frontend
+spec:
+  type: NodePort
+  selector:
+    app: sails
+    tier: frontend
+  ports:
+  - port: 8000
+    targetPort: 8000
+    nodePort: 32000
