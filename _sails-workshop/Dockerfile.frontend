@@ -12,11 +12,11 @@ WORKDIR /var/sails_workshop
 FROM base AS frontend-base
 EXPOSE 8000
 
-COPY frontend/package.json frontend/package-lock.json ./
+COPY frontend/package.json ./
 RUN npm install
 
 COPY frontend/bower.json ./
-RUN bower install --allow-root
+RUN bower install -F --allow-root
 
 COPY frontend/ .
 CMD ["gulp"]

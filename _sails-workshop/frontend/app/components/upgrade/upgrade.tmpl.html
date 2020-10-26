@@ -1,11 +1,126 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>{{message}}</h1>
-</body>
-</html>
+<div class="ha-pairs">
+    <div class="display-box" id="startUpgrade">
+        <table class="table table-hover table-bordered display-pairs">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col">HA Pair</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">ID</th>
+                    <th>
+                        <button class="btn btn-success" ng-click="open_dialog()">
+                            Upgrade
+                        </button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="table-success" ng-repeat="ha_pair in ha_pairs track by $index">
+                    <td>
+                        {{ha_pair.ha}}
+                    </td>
+                    <td>
+                        {{ha_pair.name}}
+                    </td>
+                    <td>
+                        {{ha_pair.type}}
+                    </td>
+                    <td>
+                        {{ha_pair.pid}}
+                    </td>
+                    <td>
+                        <input type="checkbox" value="{{ha_pair}}" id="{{$index}}" ng-change="select($index, selected)"
+                            ng-model="selected">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal" id="modalDialog" tabindex="-1" role="dialog" aria-labelledby="modalDialogLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalDialogLabel">Add base device info</h5>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-primary" ng-click="upload_device_info()">Upload</button>
+                            </div>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="base_device">
+                                <label class="custom-file-label" for="base_device">Choose file</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="device-info">
+                        <div id="device-box">
+                            <form id="upgrade-form">
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input type="text" class="form-control" id="username" ng-model="device.username">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="text" class="form-control" id="password" ng-model="device.password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="port">Port</label>
+                                    <input type="text" class="form-control" id="port" ng-model="device.port">
+                                </div>
+                                <div class="form-group">
+                                    <label for="image-name">Image name</label>
+                                    <input type="text" class="form-control" id="image-name" ng-model="device.imageName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="image-hash">Image hash</label>
+                                    <input type="text" class="form-control" id="image-hash" ng-model="device.imageHash">
+                                </div>
+                                <div class="form-group">
+                                    <label for="timeout">Timeout</label>
+                                    <input type="text" class="form-control" id="timeout" ng-model="device.timeout">
+                                </div>
+                                <div class="form-group">
+                                    <label for="remote-server">Remote server</label>
+                                    <input type="text" class="form-control" id="remote-server"
+                                        ng-model="device.remoteServer">
+                                </div>
+                                <div class="form-group">
+                                    <label for="remote-username">Remote username</label>
+                                    <input type="text" class="form-control" id="remote-username"
+                                        ng-model="device.remoteUsername">
+                                </div>
+                                <div class="form-group">
+                                    <label for="remote-password">Remote password</label>
+                                    <input type="text" class="form-control" id="remote-password"
+                                        ng-model="device.remotePassword">
+                                </div>
+                                <div class="form-group">
+                                    <label for="remote-path">Remote path</label>
+                                    <input type="text" class="form-control" id="remote-path"
+                                        ng-model="device.remotePath">
+                                </div>
+                                <div class="form-group">
+                                    <label for="package-download-url">Package download URL</label>
+                                    <input type="text" class="form-control" id="package-download-url"
+                                        ng-model="device.packageDownloadURL">
+                                </div>
+                                <div class="form-group">
+                                    <label for="download_timeout">Download timeout</label>
+                                    <input type="text" class="form-control" id="download_timeout"
+                                        ng-model="device.downloadTimeout">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" ng-click="close_dialog()">Close</button>
+                    <button type="button" class="btn btn-primary" ng-click="upgrade()">Start</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

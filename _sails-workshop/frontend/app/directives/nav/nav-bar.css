@@ -12,7 +12,7 @@
 #main_entries {
     display: grid;
     grid-template-rows: 100%;
-    grid-template-columns: auto auto auto auto;
+    grid-template-columns: auto auto auto auto auto;
     list-style-type: none;
     margin: 0px;
     text-align: center;
