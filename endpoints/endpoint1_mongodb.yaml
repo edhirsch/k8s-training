@@ -1,3 +1,6 @@
+# Use an existing MongoDB or start one locally using the docker cli
+# docker run -it -v ~/data:/data/db --name mongodb -p 27017:27017 -d -e MONGO_INITDB_ROOT_USERNAME=username -e MONGO_INITDB_ROOT_PASSWORD=password -e MONGO_INITDB_DATABASE=database mongo:4.2-bionic
+# Update the local ip address accordingly
 apiVersion: v1
 kind: Endpoints
 metadata:
