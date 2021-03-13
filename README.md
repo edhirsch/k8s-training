@@ -58,7 +58,8 @@
 ### Kubernetes Official Documentation
 #### Documentation
 - [what is Kubernetes ?](https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/)
-- [kubernetes concepts](https://kubernetes.io/docs/concepts/)
+- [Kubernetes concepts](https://kubernetes.io/docs/concepts/)
+- [Kubernetes tasks](https://kubernetes.io/docs/tasks/)
 
 ---
 
@@ -67,8 +68,11 @@
 - [kubectl overview](https://kubernetes.io/docs/reference/kubectl/overview/)
 - [kubectl cheat sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
 - [kubectl command reference](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands)
+- [working with imperative commands](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-command/)
 
 #### Kubectl Commands, Resources and Options
+
+#### Working with Resources - imperative commands
 
 #### Global vs Namespaced
 
@@ -78,15 +82,16 @@
 
 ### Yaml
 #### Documentation
--
+- [Yaml official documentation](https://yaml.org/)
+- [Kubernetes objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/)
+- [imperative object configuration](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-config/)
+- [declarative object configuration](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/)
 
 #### Structure
 
-#### Creating Resources (Create, Apply)
+#### Working with Resources - imperative configuration
 
-#### Modifying Resources (Edit)
-
-#### Removing Resources (Delete)
+#### Working with Resources - declarative configuration
 
 ---
 
