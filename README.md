@@ -2,8 +2,18 @@
 
 ## Table of contents
 * [Getting Started](#getting-started)
-* [Course 01 - Prepare Docker Images](#prepare-docker-images)
-* 
+* [Lesson 01 - Docker Images](#lesson-1---docker-images)
+* [Lesson 02 - Kubernetes Command Line Interface](#lesson-2---kubernetes-command-line-interface)
+* [Lesson 03 - Kubernetes Yaml Configuration Files](#lesson-3---kubernetes-yaml-configuration-files)
+* [Lesson 04 - Namespaces](#lesson-4---namespaces)
+* [Lesson 05 - Pods](#lesson-5---pods)
+* [Lesson 06 - Workload Controllers](#lesson-6---workload-controllers)
+* [Lesson 07 - Services and Endpoints](#lesson-7---services-and-endpoints)
+* [Lesson 08 - ConfigMaps and Secrets](#lesson-8---configmaps-and-secrets)
+* [Lesson 09 - PersistentVolumes, PersistentVolumeClaims and StorageClasses](#lesson-9---persistentvolumes-persistentvolumeclaims-and-storageclasses)
+* [Lesson 10 - Helm, Ingress and Ingress Controllers](#lesson-10---helm-ingresses-and-ingress-controllers)
+* [Lesson 11 - Resource Quotas, Requests and Limits](#lesson-11---resource-quotas-requests-and-limits)
+* [Optional  - Official Documentation](#optional---kubernetes-official-documentation)
 
 ## Getting Started
 ### Required Tools
@@ -194,7 +204,7 @@ TODO: Add sample web applications with database
 
 ---
 
-## Lesson 11 - Resource Quotas and Limits
+## Lesson 11 - Resource Quotas, Requests and Limits
 ### Section 11.0 - Documentation and Training Resources
 - [ResourceQuotas](https://kubernetes.io/docs/concepts/policy/resource-quotas/)
 - [Requests and Limits](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
