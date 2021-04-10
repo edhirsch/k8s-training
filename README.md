@@ -50,19 +50,34 @@
 ### Section 1.0 - Documentation and Training Resources
 - Dockerfile Reference(https://docs.docker.com/engine/reference/builder/)
 - Play with Docker(https://training.play-with-docker.com/ops-stage1/)
+- Sails application(https://github.com/docker/labs/blob/master/developer-tools/nodejs/porting/1_node_application.md)
 
 ### Section 1.1 - Getting familiar with Docker
 
 ### Section 1.2 - Creating your Dockerfile
-TODO: Add sample web applications with database
+    cd apps/messageApp
+    cat Dockerfile
 
 ### Section 1.3 - Building your image
+    docker build -t messageapp:0.1 .
 
 ### Section 1.4 - Running your application
+#### Start the database
+    docker run -it -v ~/data:/data/db --name mongodb -p 27017:27017 -d mongo:4.2-bionic
+#### Retrieve the database ip
+    docker inspect mongodb
+#### Start the message application
+    docker run -d -p 1337:1337 -e MONGO_URL=mongodb://172.17.0.2/messageApp --name message messageapp:0.1
 
 ### Section 1.5 - Testing your application
-
-### Section 1.6 - Optimizing your image
+#### Create a message
+    curl -XPOST localhost:1337/message?text=<some text>
+#### Read all messages
+    curl localhost:1337/message
+#### Update a message
+    curl -XPUT http://localhost:1337/message/<id>?text=<new text>
+#### Delete a message
+    curl -XPUT http://localhost:1337/message/<id>
 
 ### Assessment
 - Build a docker image based on a sample web application using a database
@@ -146,7 +161,7 @@ TODO: Add sample web applications with database
 
 ## Lesson 7 - Services and Endpoints
 ### Section 7.0 - Documentation and Training Resources
-- [Services](https://kubernetes.io/docs/concepts/services-networking/service/)
+- [Services and Endpoints](https://kubernetes.io/docs/concepts/services-networking/service/)
 
 ### Section 7.1 - Types of Services
 
