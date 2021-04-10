@@ -102,6 +102,7 @@ TODO: Add sample web applications with database
 
 ## Lesson 4 - Namespaces
 ### Section 4.0 - Documentation and Training Resources
+- [Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/)
 
 ### Section 4.1 - Creating Namespaces using Commands
 
@@ -113,6 +114,7 @@ TODO: Add sample web applications with database
 
 ## Lesson 5 - Pods
 ### Section 5.0 - Documentation and Training Resources
+- [Pods](https://kubernetes.io/docs/concepts/workloads/pods/)
 
 ### Section 5.1 - Containers vs Pods
 
