@@ -4,10 +4,11 @@
 [any OS](https://helm.sh/docs/intro/install/)
 
 # Nginx Ingress Controller
-[nginx-ingress chart](https://github.com/helm/charts/tree/master/stable/nginx-ingress)
-### Enable the stable repository
-    helm repo add stable https://kubernetes-charts.storage.googleapis.com
+[ingress-nginx chart](https://github.com/kubernetes/ingress-nginx/tree/master/charts/ingress-nginx)
+### Adding the ingress-nginx repository
+    helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+    helm repo update
 ### Install nginx-ingress controller
-    helm install nginx-ingress stable/nginx-ingress -f nginx-ingress/values.yaml
+    helm install ingress-nginx ingress-nginx/ingress-nginx -f ingress-nginx/values.yaml
 ### Uninstall nginx-ingress controller
-    helm del nginx-ingress
+    helm del ingress-nginx
