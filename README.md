@@ -186,12 +186,44 @@ kubectl apply -f 3-yaml-configuration/example_updated.yaml
 ## Lesson 4 - Namespaces
 ### Section 4.0 - Documentation and Training Resources
 - [Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/)
+- [Context](https://kubernetes.io/docs/reference/kubectl/cheatsheet/#kubectl-context-and-configuration)
 
-### Section 4.1 - Creating Namespaces using Commands
+### Section 4.1 - Managing Namespaces using Commands
+#### Create namespace
+    kubectl create namespace my-namespace
+#### List namespaces
+    kubectl get namespaces
+    kubectl get namespace my-namespace
+#### Delete namespace
+    kubectl delete namespace
 
-### Section 4.2 - Creating Namespaces using Yaml Configuration Files
+### Section 4.2 - Managing Namespaces using Yaml Configuration Files
+#### Create namespace
+    kubectl create -f 4-namespaces/namespace.yaml
+    kubectl apply -f 4-namespaces/namespace.yaml
+
+#### Delete namespace
+    kubectl delete -f 4-namespaces/namespace.yaml
 
 ### Section 4.3 - Global vs Namespaced and Context Switching
+#### Create a pod in the default namespace
+    kubectl apply -f 3-yaml-configuration/example.yaml
+#### Create a user namespace with a pod
+    kubectl apply -f 4-namespaces/namespace.yaml
+    kubectl apply -f 4-namespaces/example.yaml
+#### List pods in the default and user namespaces
+    kubectl get pods
+    kubectl get pods -n my-namespace
+
+### Context switching
+#### List contexts
+    kubectl config get-contexts
+#### Create context for a specific user, cluster and namespace
+    kubectl config set-context my --user=docker-desktop --cluster=docker-desktop --namespace=my-namespace
+#### Switch context
+    kubectl config use-context my
+#### Delete context
+    kubectl config delete-context my
 
 ---
 
