@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+    - name: my-container
+      image: ubuntu
+      command:
+      - sleep
+      args:
+      - infinity
+  terminationGracePeriodSeconds: 5

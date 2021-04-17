@@ -80,7 +80,7 @@
     curl -XPUT http://localhost:1337/message/<id>
 
 ### Assessment
-- Build a docker image based on a sample web application using a database
+- Build a docker image based on a sample web application which uses a database for storing data
 - Configure and start the database
 - Start the dockerized web application
 - Test that the application is working properly
@@ -95,8 +95,37 @@
 - [working with imperative commands](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-command/)
 
 ### Section 2.1 - Kubectl Commands, Resources and Options
+#### Syntax
+    kubectl [command] [TYPE] [NAME] [flags]
 
-### Section 2.2 - Working with Resources via Commands
+#### Command (operation)
+- Specifies the operation that you want to perform on one or more resources 
+- Example: create, get, describe, delete
+
+#### Type
+- Specifies the resource type 
+- Resource types are case-insensitive and you can specify the singular, plural, or abbreviated forms
+
+#### Name
+- Specifies the name of the resource 
+- Names are case-sensitive 
+- If the name is omitted, details for all resources are displayed
+- Different Types and Names can be used on the same line
+  
+    kubectl get namespace/namespace1 pod/pod1
+
+#### Flags (options)
+- Specifies command flags
+- There are common flags, but they can differ based on command and type
+
+#### Output format
+    kubectl [command] [TYPE] [NAME] -o <output_format>
+
+Common output formats:
+- -o json - Output a JSON formatted API object.
+- -o name - Print only the resource name and nothing else.
+- -o wide - Output in the plain-text format with any additional information. For pods, the node name is included.
+- -o yaml - Output a YAML formatted API object.
 
 ---
 
@@ -104,14 +133,53 @@
 ### Section 3.0 - Documentation and Training Resources
 - [Yaml official documentation](https://yaml.org/)
 - [Kubernetes objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/)
+- [object management](https://kubernetes.io/docs/concepts/overview/working-with-objects/object-management/)
 - [imperative object configuration](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-config/)
 - [declarative object configuration](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/)
 
-### Section 3.1 - Basic Yaml Resource Structure
+### Section 3.1 - Yaml Resource Structure
+#### Example
+    cat 3-yaml-configuration/example.yaml
 
 ### Section 3.2 - Working with Resources via Imperative Configuration
+#### Use case
+- works best with static resources
+- works best with files
+
+#### Create a resource
+    kubectl create -f 3-yaml-configuration/example.yaml
+
+#### Update a resource
+- requires the full definition 
+```sh
+kubectl get pod my-pod -o yaml | sed 's/image: centos/image: ubuntu/' | kubectl replace -f -
+```
+
+#### Delete a resource
+    kubectl delete -f 3-yaml-configuration/example.yaml
 
 ### Section 3.3 - Working with Resources via Declarative Configuration
+#### Use case
+- works best with dynamic resources
+- works best with folders
+
+#### Create a resource
+    kubectl apply -f 3-yaml-configuration/example.yaml
+
+#### Update a resource
+- requires partial definition 
+```sh
+kubectl apply -f 3-yaml-configuration/example_updated.yaml
+```
+
+#### Delete a resource
+    kubectl delete -f 3-yaml-configuration/example.yaml
+
+### Assessment
+
+- create other example files
+- create, update, verify and delete the resources using both imperative and declarative configuration
+- use commands from lesson 2 to verify
 
 ---
 
