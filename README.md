@@ -225,6 +225,12 @@ kubectl apply -f 3-yaml-configuration/example_updated.yaml
 #### Delete context
     kubectl config delete-context my
 
+### Assessment
+- create a namespace using each method
+- add resources to each namespace
+- create contexts for each namespace
+- list resources for each namespace via contexts or other means
+
 ---
 
 ## Lesson 5 - Pods
