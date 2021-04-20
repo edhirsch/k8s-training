@@ -55,30 +55,44 @@
 ### Section 1.1 - Getting familiar with Docker
 
 ### Section 1.2 - Creating your Dockerfile
-    cd apps/messageApp
-    cat Dockerfile
-
+```sh
+cd apps/messageApp
+cat Dockerfile
+```
 ### Section 1.3 - Building your image
-    docker build -t messageapp:0.1 .
-
+```sh
+docker build -t messageapp:0.1 .
+```
 ### Section 1.4 - Running your application
 #### Start the database
-    docker run -it -v ~/data:/data/db --name mongodb -p 27017:27017 -d mongo:4.2-bionic
+```sh
+docker run -it -v ~/data:/data/db --name mongodb -p 27017:27017 -d mongo:4.2-bionic
+```
 #### Retrieve the database ip
-    docker inspect mongodb
+```sh
+docker inspect mongodb
+```
 #### Start the message application
-    docker run -d -p 1337:1337 -e MONGO_URL=mongodb://172.17.0.2/messageApp --name message messageapp:0.1
-
+```sh
+docker run -d -p 1337:1337 -e MONGO_URL=mongodb://172.17.0.2/messageApp --name messageapp messageapp:0.1
+```
 ### Section 1.5 - Testing your application
 #### Create a message
-    curl -XPOST localhost:1337/message?text=<some text>
+```sh
+curl -XPOST localhost:1337/message?text=<some text>
+```
 #### Read all messages
-    curl localhost:1337/message
+```sh
+curl localhost:1337/message
+```
 #### Update a message
-    curl -XPUT http://localhost:1337/message/<id>?text=<new text>
+```sh
+curl -XPUT http://localhost:1337/message/<id>?text=<new text>
+```
 #### Delete a message
-    curl -XPUT http://localhost:1337/message/<id>
-
+```sh
+curl -XPUT http://localhost:1337/message/<id>
+```
 ### Assessment
 - Build a docker image based on a sample web application which uses a database for storing data
 - Configure and start the database
@@ -96,7 +110,9 @@
 
 ### Section 2.1 - Kubectl Commands, Resources and Options
 #### Syntax
-    kubectl [command] [TYPE] [NAME] [flags]
+```sh
+kubectl [command] [TYPE] [NAME] [flags]
+```
 
 #### Command (operation)
 - Specifies the operation that you want to perform on one or more resources 
@@ -111,15 +127,18 @@
 - Names are case-sensitive 
 - If the name is omitted, details for all resources are displayed
 - Different Types and Names can be used on the same line
-  
-    kubectl get namespace/namespace1 pod/pod1
+```sh
+kubectl get namespace/namespace1 pod/pod1
+```
 
 #### Flags (options)
 - Specifies command flags
 - There are common flags, but they can differ based on command and type
 
 #### Output format
-    kubectl [command] [TYPE] [NAME] -o <output_format>
+```sh
+kubectl [command] [TYPE] [NAME] -o <output_format>
+```
 
 Common output formats:
 - -o json - Output a JSON formatted API object.
@@ -139,7 +158,9 @@ Common output formats:
 
 ### Section 3.1 - Yaml Resource Structure
 #### Example
-    cat 3-yaml-configuration/example.yaml
+```sh
+cat 3-yaml-configuration/example.yaml
+```
 
 ### Section 3.2 - Working with Resources via Imperative Configuration
 #### Use case
@@ -147,7 +168,9 @@ Common output formats:
 - works best with files
 
 #### Create a resource
-    kubectl create -f 3-yaml-configuration/example.yaml
+```sh
+kubectl create -f 3-yaml-configuration/example.yaml
+```
 
 #### Update a resource
 - requires the full definition 
@@ -156,7 +179,9 @@ kubectl get pod my-pod -o yaml | sed 's/image: centos/image: ubuntu/' | kubectl 
 ```
 
 #### Delete a resource
-    kubectl delete -f 3-yaml-configuration/example.yaml
+```sh
+kubectl delete -f 3-yaml-configuration/example.yaml
+```
 
 ### Section 3.3 - Working with Resources via Declarative Configuration
 #### Use case
@@ -164,7 +189,9 @@ kubectl get pod my-pod -o yaml | sed 's/image: centos/image: ubuntu/' | kubectl 
 - works best with folders
 
 #### Create a resource
-    kubectl apply -f 3-yaml-configuration/example.yaml
+```sh
+kubectl apply -f 3-yaml-configuration/example.yaml
+```
 
 #### Update a resource
 - requires partial definition 
@@ -173,13 +200,15 @@ kubectl apply -f 3-yaml-configuration/example_updated.yaml
 ```
 
 #### Delete a resource
-    kubectl delete -f 3-yaml-configuration/example.yaml
+```sh
+kubectl delete -f 3-yaml-configuration/example.yaml
+```
 
 ### Assessment
 
-- create other example files
-- create, update, verify and delete the resources using both imperative and declarative configuration
-- use commands from lesson 2 to verify
+- Create other example files
+- Create, update, verify and delete the resources using both imperative and declarative configuration
+- Use commands from lesson 2 to verify
 
 ---
 
@@ -190,46 +219,74 @@ kubectl apply -f 3-yaml-configuration/example_updated.yaml
 
 ### Section 4.1 - Managing Namespaces using Commands
 #### Create namespace
-    kubectl create namespace my-namespace
+```sh
+kubectl create namespace my-namespace
+```
 #### List namespaces
-    kubectl get namespaces
-    kubectl get namespace my-namespace
+```sh
+kubectl get namespaces
+kubectl get namespace my-namespace
+```
 #### Delete namespace
-    kubectl delete namespace
-
+```sh
+kubectl delete namespace
+```
 ### Section 4.2 - Managing Namespaces using Yaml Configuration Files
 #### Create namespace
-    kubectl create -f 4-namespaces/namespace.yaml
-    kubectl apply -f 4-namespaces/namespace.yaml
+```sh
+kubectl create -f 4-namespaces/namespace.yaml
+kubectl apply -f 4-namespaces/namespace.yaml
+```
 
 #### Delete namespace
-    kubectl delete -f 4-namespaces/namespace.yaml
+```sh
+kubectl delete -f 4-namespaces/namespace.yaml
+```
 
 ### Section 4.3 - Global vs Namespaced and Context Switching
 #### Create a pod in the default namespace
-    kubectl apply -f 3-yaml-configuration/example.yaml
+```sh
+kubectl apply -f 3-yaml-configuration/example.yaml
+```
+
 #### Create a user namespace with a pod
-    kubectl apply -f 4-namespaces/namespace.yaml
-    kubectl apply -f 4-namespaces/example.yaml
+```sh
+kubectl apply -f 4-namespaces/namespace.yaml
+kubectl apply -f 4-namespaces/example.yaml
+```
+
 #### List pods in the default and user namespaces
-    kubectl get pods
-    kubectl get pods -n my-namespace
+```sh
+kubectl get pods
+kubectl get pods -n my-namespace
+```
 
 ### Context switching
 #### List contexts
-    kubectl config get-contexts
+```sh
+kubectl config get-contexts
+```
+
 #### Create context for a specific user, cluster and namespace
-    kubectl config set-context my --user=docker-desktop --cluster=docker-desktop --namespace=my-namespace
+```sh
+kubectl config set-context my --user=docker-desktop --cluster=docker-desktop --namespace=my-namespace
+```
+
 #### Switch context
-    kubectl config use-context my
+```sh
+kubectl config use-context my
+```
+
 #### Delete context
-    kubectl config delete-context my
+```sh
+kubectl config delete-context my
+```
 
 ### Assessment
-- create a namespace using each method
-- add resources to each namespace
-- create contexts for each namespace
-- list resources for each namespace via contexts or other means
+- Create a namespace using each method
+- Add resources to each namespace
+- Create contexts for each namespace
+- List resources for each namespace via contexts or other means
 
 ---
 
@@ -237,15 +294,78 @@ kubectl apply -f 3-yaml-configuration/example_updated.yaml
 ### Section 5.0 - Documentation and Training Resources
 - [Pods](https://kubernetes.io/docs/concepts/workloads/pods/)
 
-### Section 5.1 - Containers vs Pods
+### Section 5.1 - Creating Pods using Commands
+#### Syntax
+```sh
+kubectl run [<pod_name>] [<run_options>] --image=<image> [-- <args>]
+```
+- image - the docker image to use (mandatory)
+- run_options - runtime options like stdin, attach, tty, env, port, command 
+  -  see "kubectl run --help" for short versions and details
+- pod_name - the Pod name (optional)
+  - will use the command as a Pod name if not specified) 
+- args - override the default image command and arguments (optional)
+  - if the --command is specified in the run_options, all are treated as arguments for that command
 
-### Section 5.2 - Creating Pods using Commands
+#### Create an example pod
+```sh
+kubectl run my-pod -it --image=centos -- bash
+```
 
-### Section 5.3 - Creating Pods using Yaml Configuration Files
+### Section 5.2 - Creating Pods using Yaml Configuration Files
+#### Single container Pod
+```sh
+cat 5-pods/pod_single_container.yaml
+kubectl apply -f 5-pods/pod_single_container.yaml
+```
 
-### Section 5.4 - Debugging Pods
+#### Multi container Pod
+```sh
+cat 5-pods/pod_multi_container.yaml
+kubectl apply -f 5-pods/pod_multi_container.yaml
+```
+
+#### Application Pod
+```sh
+cat 5-pods/pod_full.yaml
+kubectl apply -f 5-pods/pod_full.yaml
+```
+
+### Section 5.3 - Debugging Single and Multi container Pods
+#### Check the Pod status
+```sh
+kubectl get pods
+```
+
+#### Check the Pod details
+```sh
+kubectl describe pod single-container-pod
+kubectl describe pod multi-container-pod
+```
+
+#### Check the Pod logs
+- for single container Pods, the container logs for that container will be shown
+- for multi container Pods, you must specify the container name
+```sh
+kubectl logs single-container-pod
+kubectl logs multi-container-pod -c centos1
+kubectl logs multi-container-pod -c centos2
+kubectl logs multi-container-pod -c ubuntu1
+kubectl logs multi-container-pod -c ubuntu2
+```
 
 ### Section 5.5 - Removing Pods
+#### Remove Pods via commands
+```sh
+kubectl delete pods single-container-pod multi-container-pod message-app
+kubectl delete pods/single-container-pod pods/multi-container-pod pods/message-app
+```
+
+#### Remove Pods via configuration files
+```sh
+kubectl delete -f 5-pods/pod_single_container.yaml,5-pods/pod_multi_container.yaml,5-pods/pod_full.yaml
+kubectl delete -f 5-pods/
+```
 
 ---
 
@@ -261,7 +381,9 @@ kubectl apply -f 3-yaml-configuration/example_updated.yaml
 
 ### Section 6.4 - Starting the Database via a StatefulSet
 
-### Section 6.5 - Testing the Web Application
+### Section 6.5 - Adding Init containers
+
+### Section 6.6 - Testing the Web Application
 
 ---
 

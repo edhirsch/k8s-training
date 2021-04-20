@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: single-container-pod
+spec:
+  containers:
+    - name: centos
+      image: centos
+      args:
+        - bash
+        - -c
+        - echo 'This is the only container' ; sleep 120 ; echo 'Bye bye!'
+  terminationGracePeriodSeconds: 5

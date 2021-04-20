@@ -13,7 +13,7 @@ RUN npm install -g sails@0.12.3 && \
     sails generate api message
 
 # Copy the application files
-COPY . .
+COPY config/* config/
 
 # Start sails
 CMD ["sails", "lift"]
