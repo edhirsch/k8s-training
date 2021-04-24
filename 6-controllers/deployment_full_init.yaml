@@ -1,0 +1,64 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: message-app
+  namespace: default
+spec:
+  replicas: 3
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: sails
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: sails
+        tier: backend
+    spec:
+      initContainers:
+      - name: wait-mongo
+        image: busybox
+        command: [ 'sh', '-c', "until nc -vz -w 1 $MONGO_SERVICE_HOST $MONGO_SERVICE_PORT; do echo Waiting for mongo database to be available..; sleep 0.5; done" ]
+      containers:
+      - name: message-app
+        image: messageapp:0.1
+        command:
+        - sails
+        args:
+        - lift
+        env:
+        - name: MONGO_USER
+          value: username
+        - name: MONGO_PASS
+          value: password
+        - name: MONGO_HOST
+          value: mongo-0.mongo.default.svc.cluster.local
+        - name: MONGO_PORT
+          value: "27017"
+        - name: MONGO_DB
+          value: admin
+        ports:
+        - containerPort: 1337
+          protocol: TCP
+          name: sails-port
+        readinessProbe:
+          tcpSocket:
+            port: sails-port
+          initialDelaySeconds: 1
+          periodSeconds: 5
+          timeoutSeconds: 5
+        livenessProbe:
+          tcpSocket:
+            port: sails-port
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 10
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 5

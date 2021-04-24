@@ -1,0 +1,32 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: message-app
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: sails
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: sails
+        tier: backend
+    spec:
+      containers:
+      - name: message-app
+        image: messageapp:0.1
+        command:
+        - sails
+        args:
+        - lift
+        env:
+        - name: MONGO_URL
+          value: 'mongodb://172.17.0.2/messageApp'
+        ports:
+        - containerPort: 1337
+          protocol: TCP
+          name: sails-port
+      terminationGracePeriodSeconds: 5

@@ -55,6 +55,7 @@
 ### Section 1.1 - Getting familiar with Docker
 
 ### Section 1.2 - Creating your Dockerfile
+[Dockerfile](apps/messageApp/Dockerfile)
 ```sh
 cd apps/messageApp
 cat Dockerfile
@@ -158,6 +159,7 @@ Common output formats:
 
 ### Section 3.1 - Yaml Resource Structure
 #### Example
+[example.yaml](3-yaml-configuration/example.yaml)
 ```sh
 cat 3-yaml-configuration/example.yaml
 ```
@@ -233,7 +235,9 @@ kubectl delete namespace
 ```
 ### Section 4.2 - Managing Namespaces using Yaml Configuration Files
 #### Create namespace
+[namespace.yaml](4-namespaces/namespace.yaml)
 ```sh
+cat 4-namespaces/namespace.yaml
 kubectl create -f 4-namespaces/namespace.yaml
 kubectl apply -f 4-namespaces/namespace.yaml
 ```
@@ -314,18 +318,21 @@ kubectl run my-pod -it --image=centos -- bash
 
 ### Section 5.2 - Creating Pods using Yaml Configuration Files
 #### Single container Pod
+[pod_single_container.yaml](5-pods/pod_single_container.yaml)
 ```sh
 cat 5-pods/pod_single_container.yaml
 kubectl apply -f 5-pods/pod_single_container.yaml
 ```
 
 #### Multi container Pod
+[pod_multi_container.yaml](5-pods/pod_multi_container.yaml)
 ```sh
 cat 5-pods/pod_multi_container.yaml
 kubectl apply -f 5-pods/pod_multi_container.yaml
 ```
 
 #### Application Pod
+[pod_full.yaml](5-pods/pod_full.yaml)
 ```sh
 cat 5-pods/pod_full.yaml
 kubectl apply -f 5-pods/pod_full.yaml
@@ -372,18 +379,44 @@ kubectl delete -f 5-pods/
 ## Lesson 6 - Workload Controllers
 ### Section 6.0 - Documentation and Training Resources
 - [Workload Controllers](https://kubernetes.io/docs/concepts/workloads/controllers/)
+- [initContainers](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
 
-### Section 6.1 - What is a Workload Controller?
+### Section 6.1 - Types of Workload Controllers
+- ReplicaSet - maintains and guarantees a specified set of identical replica Pods
+- Deployments - provides declarative updates for Pods and ReplicaSets by changing the actual to a desired state using a controlled rate
+- StatefulSets - maintains the ordered deployment and scaling of a set of Pods, and provides uniqueness for these Pods
+- DaemonSet - maintains a copy of the Pod on each node, and scales automatically with the nodes 
+- Jobs - creates one or more Pods in parallel until a specified number of successfully completed Pods is reached
+- CronJobs - creates Jobs on a repeating schedule, similar to linux cron jobs
 
-### Section 6.2 - Types of Workload Controllers
+### Section 6.2 - Starting the Web Application via a Deployment
+#### Deploy the application with basic configuration
+[deployment_base.yaml](6-controllers/deployment_base.yaml)
+```sh
+cat 6-controllers/deployment_base.yaml
+kubectl apply -f 6-controllers/deployment_base.yaml
+```
 
-### Section 6.3 - Starting the Web Application via a Deployment
+#### Deploy the application with advanced configuration
+[deployment_full.yaml](6-controllers/deployment_full.yaml)
+```sh
+cat 6-controllers/deployment_full.yaml
+kubectl apply -f 6-controllers/deployment_full.yaml
+```
 
-### Section 6.4 - Starting the Database via a StatefulSet
+### Section 6.3 - Starting the Database via a StatefulSet
+[statefulset_mongo.yaml](6-controllers/statefulset_mongodb.yaml)
+```sh
+cat 6-controllers/deployment_full.yaml
+kubectl apply -f 6-controllers/deployment_full.yaml
+```
 
-### Section 6.5 - Adding Init containers
-
-### Section 6.6 - Testing the Web Application
+### Section 6.4 - Adding Init containers
+[deployment_full_init.yaml](6-controllers/deployment_full_init.yaml)
+```sh
+cat 6-controllers/deployment_full_init.yaml
+kubectl apply -f 6-controllers/deployment_full_init.yaml
+```
 
 ---
 
@@ -391,11 +424,43 @@ kubectl delete -f 5-pods/
 ### Section 7.0 - Documentation and Training Resources
 - [Services and Endpoints](https://kubernetes.io/docs/concepts/services-networking/service/)
 
-### Section 7.1 - Types of Services
+### Section 7.1 - Service Types
+#### ClusterIP
+- expose the service using a cluster-only IP
+- the service will be available only within the cluster
+- this is the default service type
 
-### Section 7.2 - Exposing an Application via a Service
+#### NodePort
+- expose the service using the node IP and a static port (default range: 30000-32767)
+- the service will be available using the node IP and port
+
+#### LoadBalancer
+- export the service using a cloud provider Load Balancer
+
+### Section 7.2 - Exposing via a Service
+#### Cluster-only database
+[service_mongodb_selector.yaml](7-services/service_mongodb_selector.yaml)
+```sh
+cat 7-services/service_mongodb_selector.yaml
+```
+
+#### External application
+[service_nodeport_selector.yaml](7-services/service_nodeport_selector.yaml)
+```sh
+cat 7-services/service_nodeport_selector.yaml
+```
 
 ### Section 7.3 - Incorporating outside Applications in Kubernetes clusters via Endpoints
+[service_endpoint_mongodb.yaml](7-services/service_endpoint_mongodb.yaml)
+```sh
+cat 7-services/service_endpoint_mongodb.yaml
+```
+
+### Section 7.4 - Testing the Web Application
+```sh
+curl -XPOST localhost:31337/message?text=HeyStranger
+curl localhost:31337/message
+```
 
 ---
 
