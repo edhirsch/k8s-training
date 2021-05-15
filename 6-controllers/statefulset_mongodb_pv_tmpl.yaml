@@ -1,0 +1,61 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sails
+      tier: database
+  serviceName: mongo
+  template:
+    metadata:
+      labels:
+        app: sails
+        tier: database
+    spec:
+      containers:
+      - name: mongo
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: username
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          value: password
+        ports:
+        - containerPort: 27017
+          protocol: TCP
+          name: mongo-port
+        image: mongo:4.2-bionic
+        imagePullPolicy: IfNotPresent
+        readinessProbe:
+          tcpSocket:
+            port: mongo-port
+          initialDelaySeconds: 1
+          periodSeconds: 10
+          timeoutSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: mongo-port
+          initialDelaySeconds: 5
+          periodSeconds: 20
+          timeoutSeconds: 20
+        resources: {}
+        volumeMounts:
+        - name: local-vol
+          mountPath: /data
+      restartPolicy: Always
+      serviceAccountName: ""
+      terminationGracePeriodSeconds: 30
+      volumes: []
+  volumeClaimTemplates:
+  - metadata:
+      name: local-vol
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "local-storage"
+      resources:
+        requests:
+          storage: 100Mi
+

@@ -470,12 +470,28 @@ curl localhost:31337/message
 - [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/)
 
 ### Section 8.1 - Adding variables to ConfigMaps
+[configmap.yaml](8-configmaps-secrets/configmap.yaml)
+```sh
+cat 8-configmaps-secrets/configmap.yaml
+```
 
 ### Section 8.2 - Using ConfigMaps as environment variables
+[deployment_full_config.yaml](6-controllers/deployment_full_config.yaml)
+```sh
+cat 6-controllers/deployment_full_config.yaml
+kubectl apply -f 6-controllers/deployment_full_config.yaml
+```
 
-### Section 8.3 - Using ConfigMaps as configuration files in volumes
-
-### Section 8.4 - ConfigMaps vs Secrets
+### Section 8.3 - ConfigMaps vs Secrets
+[configmap_no_password.yaml](8-configmaps-secrets/configmap_no_password.yaml)
+[secret.yaml](8-configmaps-secrets/secret.yaml)
+[configmap.yaml](6-controllers/deployment_full_config_secret.yaml)
+```sh
+cat 8-configmaps-secrets/configmap_no_password.yaml
+cat 8-configmaps-secrets/secret.yaml
+cat 6-controllers/deployment_full_config_secret.yaml
+kubectl apply -f configmaps-secrets/configmap_no_password.yaml -f 8-configmaps-secrets/secret.yaml -f 6-controllers/deployment_full_config.yaml
+```
 
 ---
 
@@ -485,12 +501,41 @@ curl localhost:31337/message
 - [StorageClasses](https://kubernetes.io/docs/concepts/storage/storage-classes/)
 
 ### Section 9.1 - Creating PersistentVolumes based on local disks
+[persistentvolume_mongodb.yaml](9-pv-pvc-sc/persistentvolume_mongodb.yaml)
+```sh
+cat 9-pv-pvc-sc/persistentvolume_mongodb.yaml
+```
 
-### Section 9.2 - Binding PersistentVolumes using PersistentVolumeClaims
+### Section 9.2 - Claiming PersistentVolumes using PersistentVolumeClaims
+#### Create the PersistentVolumeClaim
+[persistentvolumeclaim_mongodb.yaml](9-pv-pvc-sc/persistentvolumeclaim_mongodb.yaml)
+```sh
+cat 9-pv-pvc-sc/persistentvolumeclaim_mongodb.yaml
+kubectl apply -f 9-pv-pvc-sc/persistentvolumeclaim_mongodb.yaml
+```
 
-### Section 9.3 - Mounting Volumes in Pods
+#### Create the Pods using PersistentVolumeClaims
+[statefulset_mongodb_pv_pvc.yaml](6-controllers/statefulset_mongodb_pv_pvc.yaml)
+```sh
+cat 6-controllers/statefulset_mongodb_pv_pvc.yaml
+kubectl apply -f 6-controllers/statefulset_mongodb_pv_pvc.yaml
+```
 
-### Section 9.4 - Dynamic provisioning of Volumes using StorageClasses
+### Section 9.3 - Claiming PersistentVolumes in Pods using VolumeClaimTemplates
+#### Create the Pods using volumeClaimTemplates
+[statefulset_mongodb_pv_tmpl.yaml](6-controllers/statefulset_mongodb_pv_tmpl.yaml)
+```sh
+cat 6-controllers/statefulset_mongodb_pv_tmpl.yaml
+kubectl apply -f 6-controllers/statefulset_mongodb_pv_tmpl.yaml
+```
+
+### Section 9.4 - Mounting Volumes in Pods
+```sh
+cat 6-controllers/statefulset_mongodb_pv_tmpl.yaml
+```
+
+
+### Section 9.5 - Dynamic provisioning of Volumes using StorageClasses
 
 ---
 
@@ -503,11 +548,16 @@ curl localhost:31337/message
 
 ### Section 10.1 - Deploying the NginX Ingress Controller using Helm
 #### Adding the ingress-nginx Helm repository
-    helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-    helm repo update
-#### Installing the Ingress Controller
-    helm install ingress-nginx ingress-nginx/ingress-nginx -f helm/ingress-nginx/values.yaml
+```sh
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+```
 
+#### Installing the Ingress Controller
+```sh
+helm install ingress-nginx ingress-nginx/ingress-nginx -f helm/ingress-nginx/values.yaml
+```
+    
 ### Section 10.2 - Instaling a base NginX Ingress
 
 ### Section 10.3 - Improving the NginX Ingress
