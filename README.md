@@ -1,4 +1,4 @@
-# Kubernetes hands-on training for developers
+# Kubernetes hands-on training
 
 ## Table of contents
 * [Getting Started](#getting-started)
