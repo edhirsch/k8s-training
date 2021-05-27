@@ -92,7 +92,7 @@ curl -XPUT http://localhost:1337/message/<id>?text=<new text>
 ```
 #### Delete a message
 ```sh
-curl -XPUT http://localhost:1337/message/<id>
+curl -XDELETE http://localhost:1337/message/<id>
 ```
 ### Assessment
 - Build a docker image based on a sample web application which uses a database for storing data
