@@ -462,6 +462,12 @@ curl -XPOST localhost:31337/message?text=HeyStranger
 curl localhost:31337/message
 ```
 
+### Assessment
+
+- Using the knowledge from lesson 7, create the application Pods using Deployment or StatefulSet
+- Create the service for your application to expose the required ports
+- Test that the application is accessible via the service ports
+
 ---
 
 ## Lesson 8 - ConfigMaps and Secrets
@@ -492,6 +498,13 @@ cat 8-configmaps-secrets/secret.yaml
 cat 6-controllers/deployment_full_config_secret.yaml
 kubectl apply -f configmaps-secrets/configmap_no_password.yaml -f 8-configmaps-secrets/secret.yaml -f 6-controllers/deployment_full_config.yaml
 ```
+
+### Assessment
+
+- Move the application environment variables to ConfigMaps or Secrets
+- Modify your Deployment or StatefulSet to use the ConfigMaps or Secrets
+- Test that the application is still working with the new changes
+
 
 ---
 
