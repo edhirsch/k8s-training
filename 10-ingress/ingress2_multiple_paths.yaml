@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sails-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+    - http:
+        paths:
+        - path: /backend
+          pathType: Prefix
+          backend:
+            service:
+              name: sails-backend
+              port:
+                number: 1337
+# This was added just as an example
+# The application doesn't have a frontend
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: sails-frontend
+              port:
+                number: 8000

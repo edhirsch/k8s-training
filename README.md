@@ -517,6 +517,7 @@ kubectl apply -f configmaps-secrets/configmap_no_password.yaml -f 8-configmaps-s
 [persistentvolume_mongodb.yaml](9-pv-pvc-sc/persistentvolume_mongodb.yaml)
 ```sh
 cat 9-pv-pvc-sc/persistentvolume_mongodb.yaml
+kubectl apply -f 9-pv-pvc-sc/persistentvolume_mongodb.yaml
 ```
 
 ### Section 9.2 - Claiming PersistentVolumes using PersistentVolumeClaims
@@ -572,8 +573,21 @@ helm install ingress-nginx ingress-nginx/ingress-nginx -f helm/ingress-nginx/val
 ```
     
 ### Section 10.2 - Instaling a base NginX Ingress
+```sh
+kubectl apply -f 10-ingress/ingress1_one_path.yaml
+```
 
 ### Section 10.3 - Improving the NginX Ingress
+```sh
+kubectl apply -f 10-ingress/ingress3_annotations.yaml
+```
+
+### Assessment
+
+- Install helm and the ingress-nginx chart
+- Modify your application to use nginx as the frontend
+- Test that the application is still working with the new changes
+
 
 ---
 
@@ -587,6 +601,17 @@ helm install ingress-nginx ingress-nginx/ingress-nginx -f helm/ingress-nginx/val
 ### Section 11.2 - Adding Resource Limits and Requests to Pods
 
 ### Section 11.3 - Testing Quotas
+
+## Final Assessment
+
+- Dockerize an application
+- The application needs to have
+  - Exposed port(s)
+  - Database (only if the application requires it)
+  - Persistent storage (if needed)
+  - Separate configuration files
+  - Quotas in place
+- Create all the required Kubernetes yaml file(s)
 
 ---
 
