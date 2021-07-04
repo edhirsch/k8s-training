@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: my-namespace-quotas
+  namespace: my-namespace
+spec:
+  hard:
+  # Compute
+    limits.cpu: "2"             # Across all pods in a non-terminal state, the sum of CPU limits cannot exceed this value.
+    limits.memory: "2Gi"        #	Across all pods in a non-terminal state, the sum of memory limits cannot exceed this value.
+    requests.cpu: "1"           # Across all pods in a non-terminal state, the sum of CPU requests cannot exceed this value.
+    requests.memory: "1Gi"      # Across all pods in a non-terminal state, the sum of memory requests cannot exceed this value.
+  # Storage
+    requests.storage: "1G"      # Across all persistent volume claims, the sum of storage requests cannot exceed this value.
+  # Object Count
+    configmaps: "3"             # The total number of ConfigMaps that can exist in the namespace.
+    persistentvolumeclaims: "3" # The total number of PersistentVolumeClaims that can exist in the namespace.
+    pods: "5"                   # The total number of Pods in a non-terminal state that can exist in the namespace. A pod is in a terminal state if .status.phase in (Failed, Succeeded) is true.
+    replicationcontrollers: "3" # The total number of ReplicationControllers that can exist in the namespace.
+    resourcequotas: "3"         # The total number of ResourceQuotas that can exist in the namespace.
+    services: "3"               # The total number of Services that can exist in the namespace.
+    services.loadbalancers: "3" # The total number of Services of type LoadBalancer that can exist in the namespace.
+    services.nodeports: "3"     # The total number of Services of type NodePort that can exist in the namespace.
+    secrets: "3"                # The total number of Secrets that can exist in the namespace.  

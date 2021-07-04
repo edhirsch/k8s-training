@@ -13,6 +13,7 @@
 * [Lesson 09 - PersistentVolumes, PersistentVolumeClaims and StorageClasses](#lesson-9---persistentvolumes-persistentvolumeclaims-and-storageclasses)
 * [Lesson 10 - Helm, Ingress and Ingress Controllers](#lesson-10---helm-ingresses-and-ingress-controllers)
 * [Lesson 11 - Resource Quotas, Requests and Limits](#lesson-11---resource-quotas-requests-and-limits)
+* [Final Assessment](#final-assessment)
 * [Optional  - Official Documentation](#optional---kubernetes-official-documentation)
 
 ## Getting Started
@@ -597,10 +598,22 @@ kubectl apply -f 10-ingress/ingress3_annotations.yaml
 - [Requests and Limits](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
 
 ### Section 11.1 - Adding Resource Quotas to Namespaces
+```sh
+kubectl create namespace my-namespace
+kubectl apply -f 11-quotas/resourcequotas_example.yaml
+```
 
 ### Section 11.2 - Adding Resource Limits and Requests to Pods
+```sh
+kubectl apply -f 5-pods/pod_limited_resources.yaml
+```
 
-### Section 11.3 - Testing Quotas
+### Section 11.3 - Checking Quotas
+```sh
+kubectl get resourcequotas -n my-namespace
+```
+
+---
 
 ## Final Assessment
 
@@ -610,7 +623,7 @@ kubectl apply -f 10-ingress/ingress3_annotations.yaml
   - Database (only if the application requires it)
   - Persistent storage (if needed)
   - Separate configuration files
-  - Quotas in place
+  - Minimal Quotas
 - Create all the required Kubernetes yaml file(s)
 
 ---
